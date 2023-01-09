@@ -3,7 +3,7 @@
 > THIS IS IN PRODUCTION: currently not stable
 
 <center>
-  ![image](./.img/2023-01-09-171050_620x544_scrot.png "alt")
+  <img src="./.img/2023-01-09-171050_620x544_scrot.png" alt="image">
 </center>
 
 
