@@ -1,12 +1,15 @@
 const BLOCK: &str    = "██";
 const RED: &str     = "\x1b[0;31m";
 const BLACK: &str   = "\x1b[0;0m";
+const RED_PLAYER: &str     = "\x1b[0;30m";
+const BLACK_PLAYER: &str   = "\x1b[0;33m";
 
 
 
 /* play {{{ */
-fn print_board(red_state: &mut [[bool; 8]; 8], black_state: &mut [[bool; 8]; 8]) {
-    /* For Testing */
+/*
+ * TODO: make this a enum or like
+fn _reset_peices() {
     for y in 0..8 {
         for x in 0..8 {
             if y < 3 && (0 == x%2 && 0 == y%2 || 1 == x%2 && 1 == y%2) {
@@ -17,6 +20,9 @@ fn print_board(red_state: &mut [[bool; 8]; 8], black_state: &mut [[bool; 8]; 8])
             }
         }
     }
+} */
+fn print_board(red_state: &mut [[bool; 8]; 8], black_state: &mut [[bool; 8]; 8]) {
+    /* For Testing */
 
     // TODO: Pieces only on diagnals need
     //      to fix that to big arrays.
@@ -33,10 +39,10 @@ fn print_board(red_state: &mut [[bool; 8]; 8], black_state: &mut [[bool; 8]; 8])
 
             if 1==(xmod3) && 1==(ymod3) &&
                     black_state[ydiv3][xdiv3] == true {
-                print!("{}{}", "\x1b[0;33m", BLOCK);
+                print!("{}{}", BLACK_PLAYER, BLOCK);
             } else if 1==(xmod3) && 1==(ymod3) &&
                     red_state[ydiv3][xdiv3] == true {
-                print!("{}{}", "\x1b[0;30m", BLOCK);
+                print!("{}{}", RED_PLAYER, BLOCK);
             }
 
             else if 3>(xmod6) && 3>(ymod6) || 2<(xmod6) && 2<(ymod6) {
