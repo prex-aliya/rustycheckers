@@ -1,57 +1,115 @@
+use std::{io, io::Write};
+
+
+
 const BLOCK: &str    = "██";
 const RED: &str     = "\x1b[0;31m";
 const BLACK: &str   = "\x1b[0;0m";
-const RED_PLAYER: &str     = "\x1b[0;30m";
-const BLACK_PLAYER: &str   = "\x1b[0;33m";
+const RED_PLAYER: &str     = "\x1b[0;33m";
+const BLACK_PLAYER: &str   = "\x1b[0;30m";
+const PROMPT:   &str = " >>> ";
+
+
+struct Pieces {
+    red:    [[bool; 8]; 8],
+    black:  [[bool; 8]; 8]
+}
 
 
 
-/* play {{{ */
-/*
- * TODO: make this a enum or like
-fn _reset_peices() {
-    for y in 0..8 {
-        for x in 0..8 {
-            if y < 3 && (0 == x%2 && 0 == y%2 || 1 == x%2 && 1 == y%2) {
-                red_state[y][x] = true;
-            }
-            if y > 4 && (0 == x%2 && 0 == y%2 || 1 == x%2 && 1 == y%2) {
-                black_state[y][x] = true;
+/* Misc {{{ */
+pub fn get_input() -> String {
+
+    print!("\n{}\x1b[0K", PROMPT);
+    io::stdout().flush().expect("get_input failed to get users input");
+
+    let mut output: String = String::new();
+    io::stdin().read_line(&mut output)
+        .expect("get_input failed to get users input");
+
+    output.trim().to_string()
+}
+fn number_input(string: &String) -> Vec<usize> {
+    let mut secondary: Vec<usize> = Vec::new();
+    let command = (string.trim().split_whitespace()).collect::<Vec<&str>>();
+
+    if command.len() >= 1 {
+        for x in command.iter() {
+            for c in x.chars() {
+                if c.is_numeric() {
+                    let num: usize = c.to_string().parse().unwrap();
+                    secondary.push(num);
+                    break;
+                }
             }
         }
     }
-} */
-fn print_board(red_state: &mut [[bool; 8]; 8], black_state: &mut [[bool; 8]; 8]) {
-    /* For Testing */
 
-    // TODO: Pieces only on diagnals need
-    //      to fix that to big arrays.
+    secondary
+}
+/* }}} */
+/* play {{{ */
+fn parse_input(input: &String, places: &mut Pieces) {
+    let command = number_input(input);
+
+    if command.len() == 4 {
+        print!("{}", command.len());
+        places.red[command[0] as usize][command[1] as usize] = true;
+        places.red[command[2] as usize][command[3] as usize] = false;
+    }
+}
+fn reset_peices(state: &mut Pieces) {
+    for y in 0..8 {
+        for x in 0..8 {
+            if y < 3 && (0 == x%2 && 0 == y%2 || 1 == x%2 && 1 == y%2) {
+                state.red[y][x] = true;
+            }
+            if y > 4 && (0 == x%2 && 0 == y%2 || 1 == x%2 && 1 == y%2) {
+                state.black[y][x] = true;
+            }
+        }
+    }
+}
+fn print_board(state: &Pieces) {
+
+    print!("\n{:4}", " ");
+    for y in 0..8 {
+        print!("{:4}{:2}", y, " ");
+    }
+    print!("\n");
 
     for y in 0..8*3 {
+        /* To Not Recompute Y More Than Needed */
+        let ymod6 = y%6;
+        let ydiv3 = y/3;
+        let ymod3 = y%3;
+
+        if 1 == y%3 {
+            print!("\n\x1b[0;0m{:3}{:2}", ydiv3, " ");
+        } else {
+            print!("\n{:5}", " ")
+        }
+
         for x in 0..8*3 {
             /* To Not Recompute these answers*/
-            let ymod6 = y%6;
             let xmod6 = x%6;
-            let ymod3 = y%3;
             let xmod3 = x%3;
-            let ydiv3 = y/3;
             let xdiv3 = x/3;
 
             if 1==(xmod3) && 1==(ymod3) &&
-                    black_state[ydiv3][xdiv3] == true {
+                    state.black[ydiv3][xdiv3] == true {
                 print!("{}{}", BLACK_PLAYER, BLOCK);
             } else if 1==(xmod3) && 1==(ymod3) &&
-                    red_state[ydiv3][xdiv3] == true {
+                    state.red[ydiv3][xdiv3] == true {
                 print!("{}{}", RED_PLAYER, BLOCK);
             }
 
+            /* The Board Itself */
             else if 3>(xmod6) && 3>(ymod6) || 2<(xmod6) && 2<(ymod6) {
-                print!("{}{}", BLACK, BLOCK);
-            } else {
+                print!("{}{}", BLACK, BLOCK); } else {
                 print!("{}{}", RED, BLOCK);
             }
         }
-        print!("\n");
     }
 }
 /* }}} */
@@ -63,11 +121,35 @@ fn print_board(red_state: &mut [[bool; 8]; 8], black_state: &mut [[bool; 8]; 8])
 
 
 fn play() {
-    let mut red_state: [[bool; 8]; 8] = [[false; 8]; 8];
-    let mut black_state: [[bool; 8]; 8] = [[false; 8]; 8];
-    'main: loop {
-        print_board(&mut red_state, &mut black_state);
-        break 'main;
+    let mut places: Pieces = Pieces { red: ([[false;8];8]), black: ([[false;8];8]) };
+
+    reset_peices(&mut places) ;
+
+
+    let mut input: Vec<String> = Default::default();
+    let history: i8 = 4; /* Changable in real time */
+
+    for _ in 0..history {
+        input.push(" ".to_string());
+    }
+
+    //'main: loop {
+    loop {
+        print_board(&places);
+
+        let user_input = get_input();
+        parse_input(&user_input, &mut places);
+
+
+        input.push(user_input);
+        for y in (0..=history as usize).rev() {
+            if y < input.len() { println!("{} \x1b[0K", input[y]);
+            } else { println!(); }
+        }
+        if input.len() > history as usize { input.remove(0); }
+
+
+        print!("\x1b[{}A", ((8*3)+5)+history);
     }
 }
 
