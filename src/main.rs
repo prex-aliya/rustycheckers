@@ -18,9 +18,14 @@ struct Pieces {
 
 
 /* Misc {{{ */
-pub fn get_input() -> String {
+pub fn get_input(turn: bool) -> String {
+    if turn == false {
+        print!("\nRED");
+    } else if turn == true {
+        print!("\nBLACK");
+    }
 
-    print!("\n{}\x1b[0K", PROMPT);
+    print!("{}\x1b[0K", PROMPT);
     io::stdout().flush().expect("get_input failed to get users input");
 
     let mut output: String = String::new();
@@ -49,13 +54,15 @@ fn number_input(string: &String) -> Vec<usize> {
 }
 /* }}} */
 /* play {{{ */
-fn parse_input(input: &String, places: &mut Pieces) {
-    let command = number_input(input);
+fn parse_input(input: &String, places: &mut [[bool;8];8]) {
+    'end: loop {
+        let command = number_input(input);
 
-    if command.len() == 4 {
-        print!("{}", command.len());
-        places.red[command[0] as usize][command[1] as usize] = true;
-        places.red[command[2] as usize][command[3] as usize] = false;
+        if command.len() == 4 {
+            places[command[0] as usize][command[1] as usize] = false;
+            places[command[2] as usize][command[3] as usize] = true;
+            break 'end;
+        }
     }
 }
 fn reset_peices(state: &mut Pieces) {
@@ -110,7 +117,19 @@ fn print_board(state: &Pieces) {
                 print!("{}{}", RED, BLOCK);
             }
         }
+
+        if 1 == y%3 {
+            print!("\x1b[0;0m{:3}{:2}", (((y as f32)*0.33 - 8.0) as i32)*-1, " ");
+        } else {
+            print!("{:5}", " ")
+        }
     }
+
+    print!("\n\n{:4}", " ");
+    for y in (0..8).rev() {
+        print!("{:4}{:2}", y, " ");
+    }
+    print!("\n");
 }
 /* }}} */
 
@@ -122,6 +141,7 @@ fn print_board(state: &Pieces) {
 
 fn play() {
     let mut places: Pieces = Pieces { red: ([[false;8];8]), black: ([[false;8];8]) };
+    let mut black_turn: bool = false;
 
     reset_peices(&mut places) ;
 
@@ -133,14 +153,25 @@ fn play() {
         input.push(" ".to_string());
     }
 
-    //'main: loop {
-    loop {
+    'main: loop {
+        /* TODO: ability to turn off any print to feed into
+         *  another gui frontend */
         print_board(&places);
 
-        let user_input = get_input();
-        parse_input(&user_input, &mut places);
+        let user_input = get_input(black_turn);
+
+        if user_input == "quit".to_string() {
+            break 'main
+        } else if black_turn == false {
+            parse_input(&user_input, &mut places.red);
+            black_turn = true;
+        } else if black_turn {
+            parse_input(&user_input, &mut places.black);
+            black_turn = false;
+        }
 
 
+        /* command history */
         input.push(user_input);
         for y in (0..=history as usize).rev() {
             if y < input.len() { println!("{} \x1b[0K", input[y]);
@@ -149,10 +180,11 @@ fn play() {
         if input.len() > history as usize { input.remove(0); }
 
 
-        print!("\x1b[{}A", ((8*3)+5)+history);
+        print!("\x1b[{}A", ((8*3)+8)+history);
     }
 }
 
 fn main() {
     play();
 }
+// vim: tw=64
