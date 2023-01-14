@@ -1,8 +1,8 @@
-<h1 style="text-align: center; font-size:72px">Rusty Checkers</h1>
+<h1 align="center" style="font-size:72px">Rusty Checkers</h1>
 
 > THIS IS IN PRODUCTION: currently not stable
 
-<img style="text-align: center;" src="./.img/topreadmepicture.png" alt="image">
+<img align="center" src="./.img/topreadmepicture.png" alt="image">
 
 
 This is a simple checkers game board written in rust for the Unix terminal, but
