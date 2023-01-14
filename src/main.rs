@@ -19,13 +19,15 @@ struct Pieces {
 
 /* Misc {{{ */
 pub fn get_input(turn: bool) -> String {
+    /* TODO: What the heck is happening? it works tho */
     if turn == false {
-        print!("\nRED");
-    } else if turn == true {
-        print!("\nBLACK");
+        print!("\n\tRRED");
+    } else {
+        print!("\n\tBBLACK");
     }
 
-    print!("{}\x1b[0K", PROMPT);
+    print!("\x1b[0K");
+    print!("{}", PROMPT);
     io::stdout().flush().expect("get_input failed to get users input");
 
     let mut output: String = String::new();
@@ -43,7 +45,7 @@ fn number_input(string: &String) -> Vec<usize> {
             for c in x.chars() {
                 if c.is_numeric() {
                     let num: usize = c.to_string().parse().unwrap();
-                    secondary.push(num);
+                    secondary.push(num-1); /* To Line up With Board */
                     break;
                 }
             }
@@ -77,13 +79,25 @@ fn reset_peices(state: &mut Pieces) {
         }
     }
 }
+fn board_print_alphabet(color: &str) {
+    let mut alphabet: u8 = 97;
+    print!("\n\t{}", color);
+    for _ in 0..8 {
+        print!("{1:3}{0:3}", alphabet as char, " ");
+        alphabet += 1;
+    }
+    print!("\x1b[0;0\n");
+}
+fn board_print_numbers(y :usize, num: i32, color: &str) {
+    if 1 == y%3 {
+        print!("{}{:4}\x1b[0;0m\t", color, num+1);
+    } else {
+        print!("\t");
+    }
+}
 fn print_board(state: &Pieces) {
 
-    print!("\n{:4}", " ");
-    for y in 0..8 {
-        print!("{:4}{:2}", y, " ");
-    }
-    print!("\n");
+    board_print_alphabet(RED);
 
     for y in 0..8*3 {
         /* To Not Recompute Y More Than Needed */
@@ -91,11 +105,8 @@ fn print_board(state: &Pieces) {
         let ydiv3 = y/3;
         let ymod3 = y%3;
 
-        if 1 == y%3 {
-            print!("\n\x1b[0;0m{:3}{:2}", ydiv3, " ");
-        } else {
-            print!("\n{:5}", " ")
-        }
+        print!("\n");
+        board_print_numbers(y, ydiv3 as i32, BLACK);
 
         for x in 0..8*3 {
             /* To Not Recompute these answers*/
@@ -118,18 +129,11 @@ fn print_board(state: &Pieces) {
             }
         }
 
-        if 1 == y%3 {
-            print!("\x1b[0;0m{:3}{:2}", (((y as f32)*0.33 - 8.0) as i32)*-1, " ");
-        } else {
-            print!("{:5}", " ")
-        }
+        board_print_numbers(y, (((y as f32)*0.33 - 8.0) as i32)*-1, RED);
     }
 
-    print!("\n\n{:4}", " ");
-    for y in (0..8).rev() {
-        print!("{:4}{:2}", y, " ");
-    }
-    print!("\n");
+    println!();
+    board_print_alphabet(BLACK);
 }
 /* }}} */
 
@@ -165,26 +169,33 @@ fn play() {
         } else if black_turn == false {
             parse_input(&user_input, &mut places.red);
             black_turn = true;
+            print!("\x1b[{}A", ((8*3)+7));//+history);
         } else if black_turn {
             parse_input(&user_input, &mut places.black);
             black_turn = false;
+            print!("\x1b[{}A", ((8*3)+8));//+history);
         }
 
 
+        // TODO: get this to work properly
+        // TODO: move this to function
         /* command history */
-        input.push(user_input);
-        for y in (0..=history as usize).rev() {
-            if y < input.len() { println!("{} \x1b[0K", input[y]);
-            } else { println!(); }
-        }
-        if input.len() > history as usize { input.remove(0); }
+        //input.push(user_input);
+        //for y in (0..=history as usize).rev() {
+        //    if y < input.len() { println!("{} \x1b[0K", input[y]);
+        //    } else { println!(); }
+        //}
+        //if input.len() > history as usize { input.remove(0); }
 
 
-        print!("\x1b[{}A", ((8*3)+8)+history);
     }
 }
 
 fn main() {
     play();
 }
+
+#[cfg(test)]
+mod test;
+
 // vim: tw=64
