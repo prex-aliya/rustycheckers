@@ -170,13 +170,12 @@ fn play() {
         } else if black_turn == false {
             parse_input(&user_input, &mut places.red);
             black_turn = true;
-            print!("\x1b[{}A", ((8*3)+7));//+history);
         } else if black_turn {
             parse_input(&user_input, &mut places.black);
             black_turn = false;
-            print!("\x1b[{}A", ((8*3)+8));//+history);
         }
 
+        print!("\x1b[{}A", ((8*3)+7));//+history);
 
         // TODO: get this to work properly
         // TODO: move this to function
@@ -188,8 +187,6 @@ fn play() {
         //    } else { println!(); }
         //}
         //if input.len() > history as usize { input.remove(0); }
-
-
     }
 }
 
