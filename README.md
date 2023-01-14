@@ -2,7 +2,9 @@
 
 > THIS IS IN PRODUCTION: currently not stable
 
-<img align="center" src="./.img/topreadmepicture.png" alt="image">
+<p align="center">
+        <img src="./.img/topreadmepicture.png" alt="image">
+</p>
 
 
 This is a simple checkers game board written in rust for the Unix terminal, but
