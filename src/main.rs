@@ -2,12 +2,13 @@ use std::{io, io::Write};
 
 
 
-const BLOCK: &str    = "██";
-const RED: &str     = "\x1b[0;31m";
-const BLACK: &str   = "\x1b[0;0m";
-const RED_PLAYER: &str     = "\x1b[0;33m";
-const BLACK_PLAYER: &str   = "\x1b[0;30m";
-const PROMPT:   &str = " >>> ";
+const BLOCK: &str           = "██";
+const RED: &str             = "\x1b[0;31m";
+const BLACK: &str           = "\x1b[0;0m";
+const RED_PLAYER: &str      = "\x1b[0;33m";
+const BLACK_PLAYER: &str    = "\x1b[0;30m";
+const RESET: &str           = "\x1b[0;0m";
+const PROMPT:   &str        = " >>> ";
 
 
 struct Pieces {
@@ -19,11 +20,10 @@ struct Pieces {
 
 /* Misc {{{ */
 pub fn get_input(turn: bool) -> String {
-    /* TODO: What the heck is happening? it works tho */
     if turn == false {
-        print!("\n\tRRED");
+        print!("\n\tRED");
     } else {
-        print!("\n\tBBLACK");
+        print!("\n\tBLACK");
     }
 
     print!("\x1b[0K");
@@ -86,11 +86,11 @@ fn board_print_alphabet(color: &str) {
         print!("{1:3}{0:3}", alphabet as char, " ");
         alphabet += 1;
     }
-    print!("\x1b[0;0\n");
+    print!("{}\n", RESET);
 }
 fn board_print_numbers(y :usize, num: i32, color: &str) {
     if 1 == y%3 {
-        print!("{}{:4}\x1b[0;0m\t", color, num+1);
+        print!("{}{:4}{}\t", color, num+1, RESET);
     } else {
         print!("\t");
     }
@@ -114,6 +114,7 @@ fn print_board(state: &Pieces) {
             let xmod3 = x%3;
             let xdiv3 = x/3;
 
+            /* TODO: this can be optimized v */
             if 1==(xmod3) && 1==(ymod3) &&
                     state.black[ydiv3][xdiv3] == true {
                 print!("{}{}", BLACK_PLAYER, BLOCK);
