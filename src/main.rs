@@ -12,8 +12,10 @@ const PROMPT:   &str        = " >>> ";
 
 
 struct Pieces {
-    red:    [[bool; 8]; 8],
-    black:  [[bool; 8]; 8]
+    red:        [[bool; 8]; 8],
+    redcount:   i16,
+    black:      [[bool; 8]; 8],
+    blackcount: i16,
 }
 
 
@@ -56,15 +58,25 @@ fn number_input(string: &String) -> Vec<usize> {
 }
 /* }}} */
 /* play {{{ */
-fn parse_input(input: &String, places: &mut [[bool;8];8]) {
-    'end: loop {
-        let command = number_input(input);
+fn parse_input(input: &String, places: &mut [[bool;8];8], count: &mut i16) {
+    let command = number_input(input);
 
-        if command.len() == 4 {
-            places[command[0] as usize][command[1] as usize] = false;
-            places[command[2] as usize][command[3] as usize] = true;
-            break 'end;
+    if command.len() == 4 {
+        let mut num: i16 = 0;
+        for x in 0..places.len() {
+            for y in 0..places[x].len() {
+                if places[x][y] == true {
+                    num += 1;
+                }
+            }
         }
+        if count != &mut num { return; }
+
+
+        places[command[0] as usize][command[1] as usize] = false;
+        places[command[2] as usize][command[3] as usize] = true;
+
+        return;
     }
 }
 fn reset_peices(state: &mut Pieces) {
@@ -145,7 +157,7 @@ fn print_board(state: &Pieces) {
 
 
 fn play() {
-    let mut places: Pieces = Pieces { red: ([[false;8];8]), black: ([[false;8];8]) };
+    let mut places: Pieces = Pieces { red: ([[false;8];8]), redcount: 12, black: ([[false;8];8]), blackcount: 12 };
     let mut black_turn: bool = false;
 
     reset_peices(&mut places) ;
@@ -166,13 +178,24 @@ fn play() {
         let user_input = get_input(black_turn);
 
         if user_input == "quit".to_string() {
-            break 'main
-        } else if black_turn == false {
-            parse_input(&user_input, &mut places.red);
-            black_turn = true;
-        } else if black_turn {
-            parse_input(&user_input, &mut places.black);
-            black_turn = false;
+            break 'main /* TODO: Add quit function */
+        } else if user_input == "kill".to_string() {
+
+            if black_turn == false {
+                let command = number_input(&user_input);
+                if command.len() == 2 {
+                    
+                }
+            }
+
+        } else {
+            if black_turn == false {
+                parse_input(&user_input, &mut places.red, &mut places.redcount);
+                black_turn = true;
+            } else if black_turn {
+                parse_input(&user_input, &mut places.black, &mut places.blackcount);
+                black_turn = false;
+            }
         }
 
         print!("\x1b[{}A", ((8*3)+7));//+history);
@@ -196,5 +219,4 @@ fn main() {
 
 #[cfg(test)]
 mod test;
-
 // vim: tw=64

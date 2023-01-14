@@ -1,4 +1,4 @@
-<!--https://codinhood.com/nano/git/center-images-text-github-readme-->
+<!-- https://codinhood.com/nano/git/center-images-text-github-readme-->
 <h1 align="center" style="font-size:72px">Rusty Checkers</h1>
 
 > THIS IS IN PRODUCTION: currently not stable
@@ -82,7 +82,15 @@ black or reds. On this board red is yellow so that it wont blend into the board
 and you can actually play.
 
 You can move you pieces by giving the continents of the piece you want to move
-and where you want it to move to.
+and where you want it to move to. For example:
+
+        RED >>> 3 3 4 4
+
+This moves the piece at 3 c to 4 d.
+
+Now the there's the keyword die, which will kill a singular piece of the
+opposing sides team.
+        
 
 And if you want to quit just type
 
@@ -102,6 +110,8 @@ And if you want to quit just type
 1. Numbers Translate to Users
 2. Accept alphanumerics as input
 3. Ability to kill another piece
+4. Ability to play over a network
+        - So needs a new function and creation functions
 
 
 
