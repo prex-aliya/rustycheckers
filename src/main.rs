@@ -8,7 +8,8 @@ const BLACK: &str           = "\x1b[0;0m";
 const RED_PLAYER: &str      = "\x1b[0;33m";
 const BLACK_PLAYER: &str    = "\x1b[0;30m";
 const RESET: &str           = "\x1b[0;0m";
-const PROMPT:   &str        = " >>> ";
+const PROMPT: &str          = " >>> ";
+const MAXPEICES: i16           = " >>> ";
 
 
 struct Pieces {
@@ -157,7 +158,11 @@ fn print_board(state: &Pieces) {
 
 
 fn play() {
-    let mut places: Pieces = Pieces { red: ([[false;8];8]), redcount: 12, black: ([[false;8];8]), blackcount: 12 };
+    let mut places: Pieces = Pieces { 
+        red: ([[false;8];8]),
+        redcount: MAXPEICES,
+        black: ([[false;8];8]),
+        blackcount: MAXPEICES };
     let mut black_turn: bool = false;
 
     reset_peices(&mut places) ;
