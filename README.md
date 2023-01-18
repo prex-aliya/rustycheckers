@@ -97,21 +97,15 @@ And if you want to quit just type
         quit
 
 
-> Warning[3]:
->       (1): The white digits are the only pair of numbers that acutally work as
->       numbers
->       (2): You will have to translate a - h to 1 - 8 because alphanumerics are
->       currently no supported
->       {3}: Currently no way to kill another
-
 
 # What To Implement.<a name="future">
 
-1. Accept alphanumerics as input
-2. Ability to kill another piece
+1. ~~Accept alphanumerics as input~~
+2. ~~Ability to kill another piece~~
 3. Ability to play over a network
         - So needs a new function and creation functions
 4. more styles of board _currently only fancy_
+5. clear keyword to reset the board
 
 
 
