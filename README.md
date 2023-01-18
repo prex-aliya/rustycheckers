@@ -82,12 +82,14 @@ and you can actually play.
 You can move your pieces by giving the continents of the piece you want to move
 and where you want it to move to. For example:
 
-        RED >>> 3 3 4 4
+        RED >>> 3 c 4 d
 
 This moves the piece at 3 c to 4 d.
 
-Now the there's the keyword die, which will kill a singular piece of the
-opposing sides team.
+Now the there's the keyword kill, which will kill a singular piece of
+your team.
+
+        RED >>> kill 1h
         
 
 And if you want to quit just type
