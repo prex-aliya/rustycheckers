@@ -107,11 +107,11 @@ And if you want to quit just type
 
 # What To Implement.<a name="future">
 
-1. Numbers Translate to Users
-2. Accept alphanumerics as input
-3. Ability to kill another piece
-4. Ability to play over a network
+1. Accept alphanumerics as input
+2. Ability to kill another piece
+3. Ability to play over a network
         - So needs a new function and creation functions
+4. more styles of board _currently only fancy_
 
 
 
