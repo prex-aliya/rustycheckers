@@ -57,11 +57,11 @@ fn number_input(string: &String) -> Vec<usize> {
                     let num: usize = c.to_string().parse().unwrap();
                     secondary.push(8-num); /* To flip the value arround to fit 
                         with the orintation of the board since the board numbers are reversed*/
-                    print!("{}", num);
+                    //print!("{}", num);
                 } else if 96 < (c as usize) && (c as usize) < 97+8{
                     let num: usize = (c as usize)-97;
                     secondary.push(num);
-                    print!("{}", num);
+                    //print!("{}", num);
                 }
             }
     }
@@ -88,7 +88,6 @@ fn parse_input(input: &String, places: &mut [[bool; 8]; 8], count: &mut i16) -> 
             return false;
         }
 
-        print!("{:?}", command);
         places[command[0] as usize][command[1] as usize] = false;
         places[command[2] as usize][command[3] as usize] = true;
 
