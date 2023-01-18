@@ -16,15 +16,13 @@ Name Pending
 
 
 1. [Instillation](#install)
-        1. [Build from sorce](#source)
-                1. [Installing Rust](#getrust)
-                2. [Building Project](#building)
+        1. [Build from source](#source)
 2. [How to use](#use)
 
 
 # How to install rusty checkers.<a name="install"></a>
 
-> Currently since this is no whare near production this is not in any
+> It is currently not, since this is nowhere near production, in any
 > repository, of my knowledge, and you will have to build this from scratch.
 
 
@@ -34,7 +32,7 @@ Name Pending
 
 To install this program you will have to have [Rust](https://www.rust-lang.org/) 
 installed on your system.
-I suggest that you install via [rustup](https://rustup.rs/)'s convenient one
+I suggest that you install via [Rustup](https://rustup.rs/)'s convenient one
 liner:
 
         curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
@@ -53,7 +51,7 @@ need to run:
 
 After which it it will save to target/release/rustycheckers.
 
-Now you could stop here or you could go further by moving it to your user binary
+Now you could stop here, or you could go further by moving it to your user binary
 file, so you do not have to navigate to this directory every time you want to
 use it in the terminal unaware. To accomplish this you will need to run a
 singular command, with the right privileges, to move or copy the binary to the
@@ -81,7 +79,7 @@ So there is an indicator by the prompt to tell you whose turn it is, either
 black or reds. On this board red is yellow so that it wont blend into the board
 and you can actually play.
 
-You can move you pieces by giving the continents of the piece you want to move
+You can move your pieces by giving the continents of the piece you want to move
 and where you want it to move to. For example:
 
         RED >>> 3 3 4 4

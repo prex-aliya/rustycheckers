@@ -5,8 +5,12 @@ use super::*;
 
 #[test]
 fn test() {
-    let mut places: Pieces = Pieces { red: ([[false;8];8]), black: ([[false;8];8]) };
+    let mut places: Pieces = Pieces { 
+        red: ([[false;8];8]),
+        redcount: 12,
+        black: ([[false;8];8]),
+        blackcount: 12};
     reset_peices(&mut places);
 
-    print_board(&places);
+    fancy_print_board(&places);
 }
