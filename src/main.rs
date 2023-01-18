@@ -50,18 +50,20 @@ pub fn get_input(turn: bool) -> String {
 }
 fn number_input(string: &String) -> Vec<usize> {
     let mut secondary: Vec<usize> = Vec::new();
-    let command = (string.trim().split_whitespace()).collect::<Vec<&str>>();
 
-    if command.len() >= 1 {
-        for x in command.iter() {
-            for c in x.chars() {
+    if string.len() >= 1 {
+            for c in string.chars() {
                 if c.is_numeric() {
                     let num: usize = c.to_string().parse().unwrap();
-                    secondary.push(num - 1); /* To Line up With Board */
-                    break;
+                    secondary.push(8-num); /* To flip the value arround to fit 
+                        with the orintation of the board since the board numbers are reversed*/
+                    print!("{}", num);
+                } else if 96 < (c as usize) && (c as usize) < 97+8{
+                    let num: usize = (c as usize)-97;
+                    secondary.push(num);
+                    print!("{}", num);
                 }
             }
-        }
     }
 
     secondary
@@ -73,6 +75,7 @@ fn parse_input(input: &String, places: &mut [[bool; 8]; 8], count: &mut i16) -> 
 
     if command.len() == 4 {
         let mut num: i16 = 0;
+        // TODO: put v into a misc function
         for x in 0..places.len() {
             for y in 0..places[x].len() {
                 if places[x][y] == true {
@@ -85,6 +88,7 @@ fn parse_input(input: &String, places: &mut [[bool; 8]; 8], count: &mut i16) -> 
             return false;
         }
 
+        print!("{:?}", command);
         places[command[0] as usize][command[1] as usize] = false;
         places[command[2] as usize][command[3] as usize] = true;
 
@@ -234,6 +238,7 @@ fn the_loop(places: &mut Pieces) {
         }
 
         print!("\x1b[{}A", ((8 * 3) + 4) + extend);
+        //print!("{:?}", places.red[2]);
     }
 }
 /* }}} */
