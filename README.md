@@ -90,10 +90,14 @@ your team.
 
         RED >>> kill 1h
         
+If you want to reset the board, just type:
+
+        RED >>> clear
+
 
 And if you want to quit just type
 
-        quit
+        RED >>> quit
 
 
 
@@ -104,7 +108,7 @@ And if you want to quit just type
 3. Ability to play over a network
         - So needs a new function and creation functions
 4. more styles of board _currently only fancy_
-5. clear keyword to reset the board
+5. ~~clear keyword to reset the board~~
 
 
 
