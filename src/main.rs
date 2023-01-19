@@ -102,9 +102,14 @@ fn reset_peices(state: &mut Pieces) {
         for x in 0..8 {
             if y < 3 && (0 == x % 2 && 0 == y % 2 || 1 == x % 2 && 1 == y % 2) {
                 state.black[y][x] = true;
+            } else {
+                state.black[y][x] = false;
             }
+
             if y > 4 && (0 == x % 2 && 0 == y % 2 || 1 == x % 2 && 1 == y % 2) {
                 state.red[y][x] = true;
+            } else {
+                state.red[y][x] = false;
             }
         }
     }
@@ -174,10 +179,8 @@ fn fancy_print_board(state: &Pieces) {
 }
 /* }}} */
 /* Loop {{{ */
-fn the_loop(places: &mut Pieces) {
+fn the_loop(places: &mut Pieces, fancy: bool) {
     let mut black_turn: bool = false;
-    let fancy: bool = true;
-
 
     'main: loop {
         let mut extend: i8 = 0;
@@ -194,6 +197,8 @@ fn the_loop(places: &mut Pieces) {
         /* TODO: put these into functions */
         if user_input == "quit".to_string() {
             break 'main; /* TODO: Add quit function */
+        } else if user_input == "clear".to_string() {
+            reset_peices(places);
         } else if user_input.contains("kill") {
             if black_turn == false {
                 let command = number_input(&user_input);
@@ -245,7 +250,7 @@ fn the_loop(places: &mut Pieces) {
 /* vvv */
 
 // TODO: split into functions
-fn play() {
+fn play(fancy: &mut bool) {
     let mut places: Pieces = Pieces {
         red: ([[false; 8]; 8]),
         redcount: MAXPEICES,
@@ -254,13 +259,14 @@ fn play() {
     };
 
     reset_peices(&mut places);
-    //let mut input: Vec<String> = Default::default();
 
-    the_loop(&mut places);
+    the_loop(&mut places, *fancy);
 }
 
 fn main() {
-    play();
+
+    let mut fancy: bool = true;
+    play(&mut fancy);
 }
 
 // vim: tw=64
