@@ -152,9 +152,9 @@ fn fancy_print_board(state: &Pieces) {
                     if 1 == y % 3 {
                         /*  */
                         if state.black[ydiv3][x] == true {
-                            fancy_board_peice("", is_red)
+                            fancy_board_peice("", is_red)
                         } else if state.red[ydiv3][x] == true {
-                            fancy_board_peice("", is_red)
+                            fancy_board_peice("", is_red)
                         } else {
                             fancy_board_slice(BLOCK, is_red)
                         }
