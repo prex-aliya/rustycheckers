@@ -1,7 +1,12 @@
 <!-- https://codinhood.com/nano/git/center-images-text-github-readme-->
 <h1 align="center" style="font-size:72px">Rusty Checkers</h1>
 
-<p align="center">THIS IS IN PRODUCTION: currently not stable</p>
+<p align="center">
+/////////////////////////////////////////////<br>
+WARNING: project currently under construction<br>
+\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+</p>
 
 
 
