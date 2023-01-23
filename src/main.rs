@@ -1,6 +1,7 @@
 #[cfg(test)]
 mod test;
 
+use ncurses::*;
 use std::{io, io::Write};
 
 /* Variables {{{ */
@@ -264,7 +265,6 @@ fn play(fancy: &mut bool) {
 }
 
 fn main() {
-
     let mut fancy: bool = true;
     play(&mut fancy);
 }
