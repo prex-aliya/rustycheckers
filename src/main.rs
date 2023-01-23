@@ -265,8 +265,6 @@ fn play(fancy: &mut bool) {
 }
 
 fn main() {
-    let mut fancy: bool = true;
-    play(&mut fancy);
 }
 
 // vim: tw=64
