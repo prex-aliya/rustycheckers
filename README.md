@@ -109,12 +109,9 @@ And if you want to quit just type
 
 # What To Implement.<a name="future">
 
-1. ~~Accept alphanumerics as input~~
-2. ~~Ability to kill another piece~~
-3. Ability to play over a network
+- [X] Accept alphanumerics as input
+- [X] Ability to kill another piece
+- [ ] Ability to play over a network
         - So needs a new function and creation functions
-4. more styles of board _currently only fancy_
-5. ~~clear keyword to reset the board~~
-
-
-
+- [ ] more styles of board _currently only fancy_
+- [X] Clear keyword to reset the board
