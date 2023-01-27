@@ -14,6 +14,54 @@ fn error(msg: &str) {
     process::exit(1);
 }
 
+/* turn {{{ */
+#[derive(PartialEq)]
+enum Turn {
+    White,
+    Black
+}
+
+impl Turn {
+    fn toggle(&self) -> Self {
+        match self {
+            Turn::White => Turn::Black,
+            Turn::Black => Turn::White
+        }
+    }
+}
+/* }}} */
+/* ui {{{ */
+#[derive(Default)]
+struct Ui {
+}
+
+impl Ui {
+    fn begin(&mut self, x:usize, y:usize) {
+
+    }
+    fn notifications(&mut self) {
+
+    }
+    fn print_board(&mut self) {
+
+    }
+    fn status(&mut self, turn: Turn) {
+
+    }
+
+    fn end(&mut self) {
+
+    }
+
+    fn save(&self) {
+
+    }
+    fn help(&self) {
+
+    }
+}
+/* }}}*/
+
 fn main() {
     if has_colors() == false {
         error("Terminal Doess not support color");
@@ -28,7 +76,8 @@ fn main() {
     init_pair(BLACK_BOARD_PAIR, COLOR_WHITE, COLOR_RED);
     init_pair(WHITE_BOARD_PAIR, COLOR_BLACK, COLOR_WHITE);
 
-    let mut tab = Turn::White;
+    let mut turn: Turn = Turn::White;
+    let mut ui = Ui::default();
 
     let mut quit = false;
     while !quit {
@@ -41,8 +90,8 @@ fn main() {
 
             /* statistics */
             match turn {
-                Turn::White => ui.print_stats("White"),
-                Turn::Black => ui.print_stats("Black"),
+                Turn::White => ui.status(Turn::White),
+                Turn::Black => ui.status(Turn::Black),
             }
 
 
@@ -56,7 +105,7 @@ fn main() {
             'q' => quit = true,
             'h' => ui.help(),
             _ => {
-                if turn == Turn::While {
+                if turn == Turn::White {
 
                 } else if turn == Turn::Black {
 
@@ -68,7 +117,7 @@ fn main() {
     }
 
 
-    save_state();
+    ui.save();
 
     endwin();
 }
