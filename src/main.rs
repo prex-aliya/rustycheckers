@@ -93,10 +93,16 @@ fn main() {
     while !quit {
 
         let mut row: i32 = 1;
-
+        /* TODO: use macros to simplify
+         *
+         * third row checkes if there is peice in array then
+         * prints the peice version if not prints normally
+         *
+         * maybe checkes entire row?
+         */
         for _ in 0..4 {
             for _ in 0..3 {
-                mv(row, 0);
+                mv(row, 3);
                 for _ in 0..4 {
                     attron(COLOR_PAIR(1));
                     addstr("     ");
@@ -107,7 +113,7 @@ fn main() {
                 row += 1;
             }
             for _ in 0..3 {
-                mv(row, 0);
+                mv(row, 3);
                 for _ in 0..4 {
                     attron(COLOR_PAIR(2));
                     addstr("     ");
