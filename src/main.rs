@@ -2,11 +2,8 @@
 mod test;
 
 use std::process;
-
 use ncurses::*;
 
-const REGULAR_PAIR: i16 = 0;
-const HIGHLIGHT_PAIR: i16 = 1;
 
 fn error(msg: &str) {
     endwin();
@@ -100,8 +97,11 @@ fn main() {
          *
          * maybe checkes entire row?
          */
-        for _ in 0..4 {
-            for _ in 0..3 {
+
+        let mut black: [[bool; 8]; 8] = [[false; 8]; 8];
+        black[1][1] = true;
+
+        for x in 0..4 {
                 mv(row, 3);
                 for _ in 0..4 {
                     attron(COLOR_PAIR(1));
@@ -111,7 +111,36 @@ fn main() {
                     addstr("     ");
                 }
                 row += 1;
-            }
+                mv(row, 3);
+                let mut y: i8 = 0;
+                while !(y > 8) {
+                    if black[x as usize][y as usize] == true {
+                        attron(COLOR_PAIR(1));
+                        addstr("  A  ");
+                    } else {
+                        attron(COLOR_PAIR(1));
+                        addstr("     ");
+                    }
+                    if y == 8 { break; }
+                    y+=1;
+                    if black[x as usize][y as usize] == true {
+                        attron(COLOR_PAIR(2));
+                        addstr("  A  ");
+                    } else {
+                        attron(COLOR_PAIR(2));
+                        addstr("     ");
+                    }
+                }
+                row += 1;
+                mv(row, 3);
+                for _ in 0..4 {
+                    attron(COLOR_PAIR(1));
+                    addstr("     ");
+
+                    attron(COLOR_PAIR(2));
+                    addstr("     ");
+                }
+                row += 1;
             for _ in 0..3 {
                 mv(row, 3);
                 for _ in 0..4 {
