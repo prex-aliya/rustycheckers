@@ -17,6 +17,14 @@ macro_rules! print_board {
         let mut one = $a;
         let mut two = $b;
 
+        mv($y, $x);
+        addstr("\t  1  ");
+        for x in 2..=8 {
+            addstr(format!("  {}  ", x).as_str());
+        }
+        addch('\n' as u32);
+        $y+=2;
+
         for x in 0..8 {
             mv($y, $x);
             print_board!(one, two);
@@ -117,28 +125,39 @@ impl Ui {
     fn print_board(&mut self) {
         print_board!(self.row, self.col, 1, 2, self.white, self.black);
     }
-    fn status(&mut self, _turn: Turn) {
-    }
+    fn move_peice(&self, initkey: i32) {
+        attron(COLOR_PAIR(3));
+        //println!("{}", initkey as i32);
+        mv(self.row-(3*9)+1, self.col+10+((initkey-49)*5));
+        addch(initkey as u32);
 
-    fn end(&mut self) {
+        attroff(COLOR_PAIR(3));
 
+        let key = getch();
+        match key as u8 as char {
+            '1'|'2'|'3'|'4'|'5'|'6'|'7'|'8' => {
+
+            },
+            _ => {return;}
+        }
     }
+    fn status(&mut self, _turn: Turn) {}
+
+    fn end(&mut self) {}
 
     fn reset(&mut self) {
         for y in 0..8 {
             for x in 0..8 {
                 if (((y % 2 == 0) & (x % 2 == 0)) || ((y % 2 == 1) & (x % 2 == 1))) & (x < 3) {
                     self.black[y][x] = true;
+                } else if (((y % 2 == 0) & (x % 2 == 0)) || ((y % 2 == 1) & (x % 2 == 1))) & (x > 4) {
+                    self.white[y][x] = true;
                 }
             }
         }
     }
-    fn save(&self) {
-
-    }
-    fn help(&self) {
-
-    }
+    fn save(&self) {}
+    fn help(&self) {}
 }
 /* }}}*/
 
@@ -156,15 +175,13 @@ fn main() {
     /*          pair            forground   background */
     init_pair(1, COLOR_WHITE, COLOR_RED);
     init_pair(2, COLOR_BLACK, COLOR_WHITE);
+    init_pair(3, COLOR_BLACK, COLOR_WHITE);
 
 
     let turn: Turn = Turn::White;
     let mut ui = Ui::default();
 
-    ui.black[1][4] = true;
-    ui.white[5][7] = true;
-
-    ui.reset();
+    ui.reset(); /* resets the peices positions */
 
     let mut quit = false;
     while !quit {
@@ -191,6 +208,9 @@ fn main() {
             _ => {
                 if turn == Turn::White {
                     match key as u8 as char {
+                        '1'|'2'|'3'|'4'|'5'|'6'|'7'|'8' => {
+                            ui.move_peice(key as u8 as i32);
+                        },
                         _ => {},
                     }
                 } else if turn == Turn::Black {
