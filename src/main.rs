@@ -222,7 +222,6 @@ fn main() {
                 ui.move_peice(key as u8 as i32, &mut turn);
             },
             '\n' => {
-                turn.toggle();
                 match turn {
                     Turn::White => turn = Turn::Black,
                     Turn::Black => turn = Turn::White,

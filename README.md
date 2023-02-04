@@ -21,8 +21,10 @@ may be ported to other terminals.
 Name Pending
 
 1. [Instillation](#install)
-    1. [Build from source](#source)
+    1. [install rust](#install)
+    1. [Build from source](#building)
 2. [How to use](#use)
+3. [Whats next](#future)
 
 
 # How to install rusty checkers.<a name="install"></a>
@@ -46,7 +48,7 @@ But you could just as easily download it from your distributions package manager
 and or by installing cargo, I bet there are other ways.
 
 
-<h5>installing rust</h5><a name="building"></a>
+<h5>compiling</h5><a name="building"></a>
 
 After the installation of rust, you can now compile this project.
 I will be demonstrating with the cargo rust compiler, now to compile you will
@@ -109,9 +111,8 @@ And if you want to quit just type
 
 # What To Implement.<a name="future">
 
-- [X] Accept alphanumerics as input
-- [X] Ability to kill another piece
+- [ ] Accept alphanumerics as input
+- [ ] Ability to kill another piece
 - [ ] Ability to play over a network
         - So needs a new function and creation functions
-- [ ] more styles of board _currently only fancy_
-- [X] Clear keyword to reset the board
+- [ ] Clear keyword to reset the board
