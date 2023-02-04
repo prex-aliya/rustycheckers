@@ -12,10 +12,12 @@ fn error(msg: &str) {
 }
 
 /* Macro {{{ */
+/* print_board {{{ */
 macro_rules! print_board {
     ($y:expr, $x:expr, $a:expr, $b:expr, $white:expr, $black:expr) => {
         let mut one = $a;
         let mut two = $b;
+        let mut col = 1;
 
         mv($y, $x);
         addstr("\t  1  ");
@@ -63,9 +65,9 @@ macro_rules! print_board {
             }
 
             if $black[y][$x] {
-                addstr("  B  ");
+                addstr("    ");
             } else if $white[y][$x] {
-                addstr("  W  ");
+                addstr("    ");
             } else {
                 addstr("     ");
             }
@@ -85,6 +87,7 @@ macro_rules! print_board {
         }
     }
 }
+/* }}} */
 /* }}} */
 
 /* turn {{{ */
@@ -125,21 +128,35 @@ impl Ui {
     fn print_board(&mut self) {
         print_board!(self.row, self.col, 1, 2, self.white, self.black);
     }
-    fn move_peice(&self, initkey: i32) {
+    fn move_peice(&mut self, initkey: i32, turn: &mut Turn) {
+        let mut x = self.col+10+((initkey-49)*5);
+        let mut y = self.row-(3*9)+1;
+
         attron(COLOR_PAIR(3));
-        //println!("{}", initkey as i32);
-        mv(self.row-(3*9)+1, self.col+10+((initkey-49)*5));
+        mv(y, x);
         addch(initkey as u32);
 
-        attroff(COLOR_PAIR(3));
-
         let key = getch();
-        match key as u8 as char {
-            '1'|'2'|'3'|'4'|'5'|'6'|'7'|'8' => {
-
-            },
-            _ => {return;}
+        if (key as u8 as char).is_numeric() {
+            if turn == &mut Turn::White {
+                if self.white[(initkey-49) as usize][(key-49) as usize] {
+                    self.white[(initkey-49) as usize][(key-49) as usize] = false;
+                } else {
+                    self.white[(initkey-49) as usize][(key-49) as usize] = true;
+                    turn.toggle();
+                }
+            } else {
+                if self.black[(initkey-49) as usize][(key-49) as usize] {
+                    self.black[(initkey-49) as usize][(key-49) as usize] = false;
+                } else {
+                    self.black[(initkey-49) as usize][(key-49) as usize] = true;
+                    turn.toggle();
+                }
+            }
         }
+                
+        attroff(COLOR_PAIR(3));
+        clear();
     }
     fn status(&mut self, _turn: Turn) {}
 
@@ -178,7 +195,7 @@ fn main() {
     init_pair(3, COLOR_BLACK, COLOR_WHITE);
 
 
-    let turn: Turn = Turn::White;
+    let mut turn: Turn = Turn::White;
     let mut ui = Ui::default();
 
     ui.reset(); /* resets the peices positions */
@@ -191,10 +208,6 @@ fn main() {
 
             ui.print_board();
             /* statistics */
-            match turn {
-                Turn::White => ui.status(Turn::White),
-                Turn::Black => ui.status(Turn::Black),
-            }
         }
         ui.end();
 
@@ -205,12 +218,19 @@ fn main() {
             'q' => quit = true,
             'h' => ui.help(),
             'r' => ui.reset(),
+            '1'|'2'|'3'|'4'|'5'|'6'|'7'|'8' => {
+                ui.move_peice(key as u8 as i32, &mut turn);
+            },
+            '\n' => {
+                turn.toggle();
+                match turn {
+                    Turn::White => turn = Turn::Black,
+                    Turn::Black => turn = Turn::White,
+                }
+            },
             _ => {
                 if turn == Turn::White {
                     match key as u8 as char {
-                        '1'|'2'|'3'|'4'|'5'|'6'|'7'|'8' => {
-                            ui.move_peice(key as u8 as i32);
-                        },
                         _ => {},
                     }
                 } else if turn == Turn::Black {
