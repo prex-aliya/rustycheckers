@@ -22,7 +22,7 @@ macro_rules! print_board {
         mv($y, $x);
         addstr("  1  ");
         for x in 2..=8 {
-            addstr(format!("  {}  ", x).as_str());
+            addstr(format!("  {}  ", (x+48 as u8) as char).as_str());
         }
         addch('\n' as u32);
         $y+=2;
@@ -140,7 +140,7 @@ impl Ui {
         let y = self.row-(3*9)+1;
 
         attron(COLOR_PAIR(3));
-        mv(y, x);
+        mv(y, x-8);
         addch(initkey as u32);
 
         let key = getch();
@@ -192,7 +192,7 @@ impl Ui {
 fn main() {
     initscr();
     noecho();
-    curs_set(CURSOR_VISIBILITY::CURSOR_INVISIBLE)           ;
+    curs_set(CURSOR_VISIBILITY::CURSOR_INVISIBLE);
 
     start_color();
     if has_colors() == false {
@@ -232,8 +232,8 @@ fn main() {
             'h' => ui.help(),
             'r' => ui.reset(),
 
-            'J' => x-=1,
-            'K' => x+=1,
+            'K' => x-=1,
+            'J' => x+=1,
 
             'H' => y-=1,
             'L' => y+=1,

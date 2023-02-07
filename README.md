@@ -112,7 +112,7 @@ And if you want to quit just type
 # What To Implement.<a name="future">
 
 - [ ] Accept alphanumerics as input
-- [ ] Ability to kill another piece
+- [X] Ability to kill another piece - ~~if piece true then false~~
 - [ ] Ability to play over a network
         - So needs a new function and creation functions
 - [ ] Clear keyword to reset the board
