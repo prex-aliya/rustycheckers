@@ -20,7 +20,7 @@ macro_rules! print_board {
         let mut col = 1;
 
         mv($y, $x);
-        addstr("\t  1  ");
+        addstr("  1  ");
         for x in 2..=8 {
             addstr(format!("  {}  ", x).as_str());
         }
@@ -55,7 +55,7 @@ macro_rules! print_board {
     ($a:expr, $b:expr, $x:expr, $white:expr, $black:expr) => {
         attroff(COLOR_PAIR($a));
         attroff(COLOR_PAIR($b));
-        addch('\t' as u32);
+        //addch('t' as u32);
 
         for y in 0..8 {
             if y % 2 == 0 {
@@ -76,7 +76,7 @@ macro_rules! print_board {
     ($a:expr, $b:expr) => {
         attroff(COLOR_PAIR($a));
         attroff(COLOR_PAIR($b));
-        addch('\t' as u32);
+        //addch('t' as u32);
 
         for _ in 0..4 {
             attron(COLOR_PAIR($a));
@@ -122,15 +122,22 @@ impl Ui {
 
         mv(y, x);
     }
-    fn notifications(&mut self) {
+    fn notifications(&mut self, turn: &mut Turn) {
+        mv(self.row, self.col);
+
+        match turn {
+            Turn::White => addstr("White Turn"),
+            Turn::Black => addstr("Black Turn")
+        };
+
         self.row += 3;
     }
     fn print_board(&mut self) {
         print_board!(self.row, self.col, 1, 2, self.white, self.black);
     }
     fn move_peice(&mut self, initkey: i32, turn: &mut Turn) {
-        let mut x = self.col+10+((initkey-49)*5);
-        let mut y = self.row-(3*9)+1;
+        let x = self.col+10+((initkey-49)*5);
+        let y = self.row-(3*9)+1;
 
         attron(COLOR_PAIR(3));
         mv(y, x);
@@ -138,18 +145,21 @@ impl Ui {
 
         let key = getch();
         if (key as u8 as char).is_numeric() {
+            let first: usize    = (initkey-49) as usize;
+            let second: usize   = (key-49) as usize;
+
             if turn == &mut Turn::White {
-                if self.white[(initkey-49) as usize][(key-49) as usize] {
-                    self.white[(initkey-49) as usize][(key-49) as usize] = false;
+                if self.white[first][second]  {
+                    self.white[first][second] = false;
                 } else {
-                    self.white[(initkey-49) as usize][(key-49) as usize] = true;
+                    self.white[first][second] = true;
                     turn.toggle();
                 }
             } else {
-                if self.black[(initkey-49) as usize][(key-49) as usize] {
-                    self.black[(initkey-49) as usize][(key-49) as usize] = false;
+                if self.black[first][second] {
+                    self.black[first][second] = false;
                 } else {
-                    self.black[(initkey-49) as usize][(key-49) as usize] = true;
+                    self.black[first][second] = true;
                     turn.toggle();
                 }
             }
@@ -194,6 +204,8 @@ fn main() {
     init_pair(2, COLOR_BLACK, COLOR_WHITE);
     init_pair(3, COLOR_BLACK, COLOR_WHITE);
 
+    let mut x: i32 = 0;
+    let mut y: i32 = 8;
 
     let mut turn: Turn = Turn::White;
     let mut ui = Ui::default();
@@ -202,9 +214,10 @@ fn main() {
 
     let mut quit = false;
     while !quit {
-        ui.begin(0,0);
+        clear();
+        ui.begin(y,x);
         {
-            ui.notifications();
+            ui.notifications(&mut turn);
 
             ui.print_board();
             /* statistics */
@@ -218,6 +231,13 @@ fn main() {
             'q' => quit = true,
             'h' => ui.help(),
             'r' => ui.reset(),
+
+            'J' => x-=1,
+            'K' => x+=1,
+
+            'H' => y-=1,
+            'L' => y+=1,
+
             '1'|'2'|'3'|'4'|'5'|'6'|'7'|'8' => {
                 ui.move_peice(key as u8 as i32, &mut turn);
             },

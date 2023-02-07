@@ -116,3 +116,5 @@ And if you want to quit just type
 - [ ] Ability to play over a network
         - So needs a new function and creation functions
 - [ ] Clear keyword to reset the board
+- [ ] Add help
+- [ ] Add key map show
