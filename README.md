@@ -88,6 +88,7 @@ turn. To kill a piece just type its placement.
 
 ## Keys<a name="keybinds"></a>
 
+<p align="center">
 <table>
 <tbody>
         <tr>
@@ -117,6 +118,7 @@ turn. To kill a piece just type its placement.
         </tr>
 </tbody>
 </table>
+</p>
 
 
 # What To Implement.<a name="future">
