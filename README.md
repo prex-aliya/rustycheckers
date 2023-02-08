@@ -11,6 +11,7 @@ WARNING: Under Construction<br>
 
 <!--https://stackoverflow.com/questions/12090472/how-do-i-center-an-image-in-the-readme-md-file-on-github-->
 <p align="center">
+        imagle outdated
         <img src="./.img/topreadmepicture.png" alt="image">
 </p>
 
@@ -82,39 +83,18 @@ that you can learn the nuances of using this terminal application.
 I am not going to teach you to play the game but if you do not know you can look
 it up, or go [here](https://duckduckgo.com/) to find out.
 
-So there is an indicator by the prompt to tell you whose turn it is, either
-black or reds. On this board red is yellow so that it wont blend into the board
-and you can actually play.
-
-You can move your pieces by giving the continents of the piece you want to move
-and where you want it to move to. For example:
-
-        RED >>> 3 c 4 d
-
-This moves the piece at 3 c to 4 d.
-
-Now the there's the keyword kill, which will kill a singular piece of
-your team.
-
-        RED >>> kill 1h
-        
-If you want to reset the board, just type:
-
-        RED >>> clear
-
-
-And if you want to quit just type
-
-        RED >>> quit
-
+To use the program you can move as many pieces as you want until you end your
+turn. To kill a piece just type its placement.
 
 
 # What To Implement.<a name="future">
 
 - [ ] Accept alphanumerics as input
-- [X] Ability to kill another piece - ~~if piece true then false~~
 - [ ] Ability to play over a network
         - So needs a new function and creation functions
 - [ ] Clear keyword to reset the board
 - [ ] Add help
 - [ ] Add key map show
+- [ ] Enforce Number of pieces, configurable.
+- [ ] Stop placement of pieces over or under other pieces 
+- [X] Ability to kill another piece - ~~if piece true then false~~
