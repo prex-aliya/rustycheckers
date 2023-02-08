@@ -174,14 +174,16 @@ impl Ui {
         clear();
     }
 
-    fn settings(&self) {
-
-    }
+    fn settings(&self) {}
 
     fn status(&mut self, _turn: Turn) {}
     fn end(&mut self) {}
 
     fn reset(&mut self) {
+        for b in (0..8).step_by(2) {
+            for i in 0..8 { self.white[b][i] = false; self.black[b][i] = false; }
+        }
+
         for y in 0..8 {
             for x in 0..8 {
                 if (((y % 2 == 0) & (x % 2 == 0)) || ((y % 2 == 1) & (x % 2 == 1))) & (x < 3) {
@@ -209,8 +211,8 @@ fn main() {
         error("Terminal Doess not support color");
     }
     /*          pair            forground   background */
-    init_pair(1, COLOR_WHITE, COLOR_RED);
-    init_pair(2, COLOR_BLACK, COLOR_WHITE);
+    init_pair(1, COLOR_BLACK, COLOR_WHITE);
+    init_pair(2, COLOR_WHITE, COLOR_RED);
     init_pair(3, COLOR_BLACK, COLOR_WHITE);
 
     let mut x: i32 = 0;
