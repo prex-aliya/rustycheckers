@@ -94,14 +94,16 @@ macro_rules! print_board {
 #[derive(PartialEq)]
 enum Turn {
     White,
-    Black
+    Black,
+    Other
 }
 
 impl Turn {
     fn toggle(&self) -> Self {
         match self {
             Turn::White => Turn::Black,
-            Turn::Black => Turn::White
+            Turn::Black => Turn::White,
+            _ => Turn::White,
         }
     }
 }
@@ -122,13 +124,16 @@ impl Ui {
 
         mv(y, x);
     }
-    fn notifications(&mut self, turn: &mut Turn) {
+    fn notifications(&mut self, turn: &mut Turn, notification: &str) {
         mv(self.row, self.col);
 
         match turn {
             Turn::White => addstr("White Turn"),
-            Turn::Black => addstr("Black Turn")
+            Turn::Black => addstr("Black Turn"),
+            Turn::Other => addstr("Setting")
         };
+
+        mvprintw(self.row+1, self.col, notification);
 
         self.row += 3;
     }
@@ -168,8 +173,12 @@ impl Ui {
         attroff(COLOR_PAIR(3));
         clear();
     }
-    fn status(&mut self, _turn: Turn) {}
 
+    fn settings(&self) {
+
+    }
+
+    fn status(&mut self, _turn: Turn) {}
     fn end(&mut self) {}
 
     fn reset(&mut self) {
@@ -209,6 +218,7 @@ fn main() {
 
     let mut turn: Turn = Turn::White;
     let mut ui = Ui::default();
+    let mut notification: String = "".to_string();
 
     ui.reset(); /* resets the peices positions */
 
@@ -217,7 +227,8 @@ fn main() {
         clear();
         ui.begin(y,x);
         {
-            ui.notifications(&mut turn);
+            ui.notifications(&mut turn, &mut notification);
+            notification = "".to_string();
 
             ui.print_board();
             /* statistics */
@@ -230,10 +241,13 @@ fn main() {
         match key as u8 as char {
             'q' => quit = true,
             'h' => ui.help(),
-            'r' => ui.reset(),
+            'r' => {
+                ui.reset();
+                notification = "Peices Reset".to_string();
+            }
 
-            'K' => x-=1,
-            'J' => x+=1,
+            'J' => x-=1,
+            'K' => x+=1,
 
             'H' => y-=1,
             'L' => y+=1,
@@ -241,23 +255,27 @@ fn main() {
             '1'|'2'|'3'|'4'|'5'|'6'|'7'|'8' => {
                 ui.move_peice(key as u8 as i32, &mut turn);
             },
+            '\t' => {
+                ui.settings();
+            }
             '\n' => {
                 match turn {
                     Turn::White => turn = Turn::Black,
                     Turn::Black => turn = Turn::White,
+                    _ => {},
                 }
             },
             _ => {
-                if turn == Turn::White {
-                    match key as u8 as char {
-                        _ => {},
+                if turn != Turn::Other {
+                    if turn == Turn::White {
+                        match key as u8 as char {
+                            _ => {},
+                        }
+                    } else if turn == Turn::Black {
+                        match key as u8 as char {
+                            _ => {},
+                        }
                     }
-                } else if turn == Turn::Black {
-                    match key as u8 as char {
-                        _ => {},
-                    }
-                } else {
-                    error("It Must Be Black Or Whites Turn");
                 }
             }
         }
