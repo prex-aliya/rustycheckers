@@ -11,7 +11,7 @@ WARNING: Under Construction<br>
 
 <!--https://stackoverflow.com/questions/12090472/how-do-i-center-an-image-in-the-readme-md-file-on-github-->
 <p align="center">
-        imagle outdated
+        !imagle outdated!<br>
         <img src="./.img/topreadmepicture.png" alt="image">
 </p>
 
@@ -85,6 +85,38 @@ it up, or go [here](https://duckduckgo.com/) to find out.
 
 To use the program you can move as many pieces as you want until you end your
 turn. To kill a piece just type its placement.
+
+## Keys<a name="keybinds"></a>
+
+<table>
+<tbody>
+        <tr>
+                <td>Keybindings<br></td>
+                <td>&nbsp;Action</td>
+        </tr><tr>
+                <td>q</td>
+                <td>Quit <br></td>
+        </tr><tr>
+                <td>h <br></td>
+                <td>prints out help (currently not working) <br></td>
+        </tr><tr>
+                <td>r<br></td>
+                <td>Reset Pieces <br></td>
+        </tr><tr>
+                <td>&lt;SHIFT&gt;-JKHL<br></td>
+                <td>&nbsp;Move Window In Any Directions<br></td>
+        </tr><tr>
+                <td>&nbsp;1..8</td>
+                <td>move pieces col, then row <br></td>
+        </tr><tr>
+                <td>&nbsp;&lt;tab&gt; / :<br></td>
+                <td>move to settings module<br></td>
+        </tr><tr>
+                <td>&lt;enter&gt;</td>
+                <td>next turn <br></td>
+        </tr>
+</tbody>
+</table>
 
 
 # What To Implement.<a name="future">
