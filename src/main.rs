@@ -201,6 +201,10 @@ impl Ui {
 
 
 fn main() {
+
+
+
+
     initscr();
     noecho();
     curs_set(CURSOR_VISIBILITY::CURSOR_INVISIBLE);
