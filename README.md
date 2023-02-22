@@ -12,7 +12,7 @@ WARNING: Under Construction<br>
 <!--https://stackoverflow.com/questions/12090472/how-do-i-center-an-image-in-the-readme-md-file-on-github-->
 <p align="center">
         !imagle outdated!<br>
-        <img src="./.img/topreadmepicture.png" alt="image">
+        <img src="./topreadmepicture.png" alt="image">
 </p>
 
 
