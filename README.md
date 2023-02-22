@@ -102,9 +102,7 @@ turn. To kill a piece just type its placement.
         </tr><tr>
                 <td>r<br></td>
                 <td>Reset Pieces <br></td>
-        </tr>
-        
-        <tr>
+        </tr><tr>
                 <td>&lt;SHIFT&gt;-H<br></td>
                 <td>&nbsp;Move Window Left<br></td>
         </tr><tr>
@@ -116,9 +114,7 @@ turn. To kill a piece just type its placement.
         </tr><tr>
                 <td>&lt;SHIFT&gt;-K<br></td>
                 <td>&nbsp;Move Window In Up<br></td>
-        </tr>
-        
-        <tr>
+        </tr><tr>
                 <td>&nbsp;1..8</td>
                 <td>move pieces col, then row <br></td>
         </tr><tr>
