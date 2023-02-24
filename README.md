@@ -2,8 +2,10 @@
 <h1 align="center" style="font-size:72px">Rusty Checkers</h1>
 
 <p align="center">
+//////////////////////////////////////////////////////////////<
 //////////////////////////////////////////////////////////////<br>
 WARNING: Under Construction<br>
+\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 </p>
 
@@ -134,7 +136,7 @@ turn. To kill a piece just type its placement.
 - [ ] Accept alphanumerics as input
 - [ ] Ability to play over a network
         - So needs a new function and creation functions
-- [ ] Clear keyword to reset the board
+- [ ] Clear binding to reset the board
 - [ ] Add help
 - [ ] Add key map show
 - [ ] Enforce Number of pieces, configurable.
